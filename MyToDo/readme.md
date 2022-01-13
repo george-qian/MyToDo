@@ -47,3 +47,5 @@ xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 ...
 ```
 - 在MainWindow.xaml中添加一个button，验证启动，成功！
+### 创建Web Api
+- 在解决方案中添加新项目。基于.NET6，创建ASP.NET Core Web Api，去掉Https选项，命名为MyToDo.Api。
