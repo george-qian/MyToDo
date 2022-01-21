@@ -14,7 +14,7 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
+        FontFamily="微软雅黑"
         xmlns:local="clr-namespace:MyToDo"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1280" 
@@ -47,7 +47,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="{Binding Icon}"/>
+                                    <materialDesign:PackIcon Margin="15,0" Kind="{Binding Icon}"/>
                                     <TextBlock Margin="10,0" Text="{Binding Title}" />
                                 </StackPanel>
                             </DataTemplate>
