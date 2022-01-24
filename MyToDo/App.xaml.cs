@@ -24,6 +24,8 @@ namespace MyToDo
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<AboutView>();
+            containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();
             containerRegistry.RegisterForNavigation<IndexView,IndexViewModel>();
             containerRegistry.RegisterForNavigation<MemoView,MemoViewModel>();
             containerRegistry.RegisterForNavigation<ToDoView,ToDoViewModel>();
