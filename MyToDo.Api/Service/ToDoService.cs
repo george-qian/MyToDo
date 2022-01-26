@@ -1,5 +1,7 @@
 ﻿using Arch.EntityFrameworkCore.UnitOfWork;
+using AutoMapper;
 using MyToDo.Api.Context;
+using MyToDo.Shared.Dtos;
 
 namespace MyToDo.Api.Service
 {
@@ -9,18 +11,21 @@ namespace MyToDo.Api.Service
     public class ToDoService : IToDoService
     {
         private readonly IUnitOfWork work;
+        private readonly IMapper mapper;
 
-        public ToDoService(IUnitOfWork work)
+        public ToDoService(IUnitOfWork work, IMapper mapper)
         {
             this.work = work;
+            this.mapper = mapper;
         }
-        public async Task<ApiResponse> AddAsync(ToDo entity)
+        public async Task<ApiResponse> AddAsync(ToDoDto model)
         {
             try
             {
-                await work.GetRepository<ToDo>().InsertAsync(entity);
+                var todoEntity = mapper.Map<ToDo>(model);
+                await work.GetRepository<ToDo>().InsertAsync(todoEntity);
                 if (await work.SaveChangesAsync() > 0)
-                    return new ApiResponse(true, entity);
+                    return new ApiResponse(true, model);
                 return new ApiResponse("添加数据失败");
             }
             catch (Exception ex)
@@ -74,18 +79,19 @@ namespace MyToDo.Api.Service
             }
         }
 
-        public async Task<ApiResponse> UpdateAsync(ToDo entity)
+        public async Task<ApiResponse> UpdateAsync(ToDoDto model)
         {
             try
             {
+                var todoEntityNew = mapper.Map<ToDo>(model);
                 var repository = work.GetRepository<ToDo>();
-                var todo = await repository.GetFirstOrDefaultAsync(predicate: entity => entity.Id.Equals(entity.Id));
-                todo.Title = entity.Title;
-                todo.Content = entity.Content;
-                todo.Status = entity.Status;
-                todo.UpdateDate = DateTime.Now;
+                var todoEntity = await repository.GetFirstOrDefaultAsync(predicate: entity => entity.Id.Equals(todoEntityNew.Id));
+                todoEntity.Title = model.Title;
+                todoEntity.Content = model.Content;
+                todoEntity.Status = model.Status;
+                todoEntity.UpdateDate = DateTime.Now;
                 if(await work.SaveChangesAsync() > 0)
-                    return new ApiResponse(true, todo);
+                    return new ApiResponse(true, todoEntity);
                 return new ApiResponse("添加数据异常！");
             }
             catch (Exception ex)

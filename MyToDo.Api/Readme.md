@@ -46,3 +46,9 @@ Done.
 ```
 - 在Github上下载代码，并将UnitOfWork源代码拷贝到工程中，将Collections目录中PagedList接口和实现移动到MyToDo.Shared工程中。将PagedList实现从internal改为public。
 - Nuget安装`Microsoft.EntityFrameworkCore.AutoHistory`
+
+### 使用AutoMapper实现传输类DTO与实体类的映射
+- Nuget安装`AutoMapper`
+- 在MyToDo.Shared工程添加Dto类
+- 在MyToDo.Api工程添加AutoMapperProfile，在program类中依赖注入automapper
+- 使用automapper实现dto与entity类的转换
