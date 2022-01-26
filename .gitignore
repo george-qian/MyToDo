@@ -2,4 +2,6 @@ MyToDo/bin/
 MyToDo/obj/
 MyToDo.Api/bin/
 MyToDo.Api/obj/
+MyToDo.Api/Migrations/
+MyToDo.Api/to.*
 .vs/

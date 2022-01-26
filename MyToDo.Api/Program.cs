@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MyToDo.Api.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+string connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build()["ConnectionStrings:ToDoConnection"];
+builder.Services.AddDbContext<MyToDoContext>(option =>
+{
+    option.UseSqlite(connectionString);
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
