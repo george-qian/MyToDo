@@ -1,6 +1,8 @@
+using Arch.EntityFrameworkCore.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MyToDo.Api.Context;
+using MyToDo.Api.Context.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,11 @@ string connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.js
 builder.Services.AddDbContext<MyToDoContext>(option =>
 {
     option.UseSqlite(connectionString);
-});
+})
+    .AddUnitOfWork<MyToDoContext>()
+    .AddCustomRepository<ToDo,ToDoRepository>()
+    .AddCustomRepository<Memo,MemoRepository>()
+    .AddCustomRepository<User,UserRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

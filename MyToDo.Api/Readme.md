@@ -37,3 +37,12 @@ Build succeeded.
 ...
 Done.
 ```
+
+### 使用UnitOfWork [链接](https://github.com/Arch/UnitOfWork)，进行数据库仓储管理
+- 新建类库项目MyToDo.shared，并将其添加为MyToDo.Api的项目引用。
+```
+# 添加项目引用
+在MyToDo.Api工程中，右键[依赖项]，选择[添加项目引用...],选择MyToDo.shared
+```
+- 在Github上下载代码，并将UnitOfWork源代码拷贝到工程中，将Collections目录中PagedList接口和实现移动到MyToDo.Shared工程中。将PagedList实现从internal改为public。
+- Nuget安装`Microsoft.EntityFrameworkCore.AutoHistory`
