@@ -1,4 +1,5 @@
-﻿using MyToDo.Shared.Dtos;
+﻿using MyToDo.Shared;
+using MyToDo.Shared.Dtos;
 
 namespace MyToDo.Api.Service
 {

@@ -1,6 +1,7 @@
 ﻿using Arch.EntityFrameworkCore.UnitOfWork;
 using AutoMapper;
 using MyToDo.Api.Context;
+using MyToDo.Shared;
 using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Parameters;
 
