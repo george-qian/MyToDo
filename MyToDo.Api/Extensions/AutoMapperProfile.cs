@@ -10,6 +10,7 @@ namespace MyToDo.Api.Extensions
         {
             CreateMap<ToDo, ToDoDto>().ReverseMap();
             CreateMap<Memo, MemoDto>().ReverseMap();
+            CreateMap<User,UserDto>().ReverseMap();
         }
     }
 }
