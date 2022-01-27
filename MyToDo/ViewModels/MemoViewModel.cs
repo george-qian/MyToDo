@@ -1,4 +1,6 @@
-﻿using MyToDo.Common.Models;
+﻿
+using MyToDo.Service;
+using MyToDo.Shared.Dtos;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -12,8 +14,9 @@ namespace MyToDo.ViewModels
 {
     public class MemoViewModel:BindableBase
     {
-        public MemoViewModel()
+        public MemoViewModel(IMemoService service)
         {
+            this.service = service;
             MemoDtos = new ObservableCollection<MemoDto>();
             CreateToDoList();
             AddCommand = new DelegateCommand(Add);
@@ -40,6 +43,7 @@ namespace MyToDo.ViewModels
 
         public DelegateCommand AddCommand { get; private set; }
         private ObservableCollection<MemoDto> memoDtos;
+        private readonly IMemoService service;
 
         public ObservableCollection<MemoDto> MemoDtos
         {
@@ -47,16 +51,20 @@ namespace MyToDo.ViewModels
             set { memoDtos = value; RaisePropertyChanged(); }
         }
 
-        void CreateToDoList()
+        async void CreateToDoList()
         {
-            for (int i = 0; i < 20; i++)
+            var todoResult = await service.GetAllAsync(new Shared.Parameters.QueryParameter()
             {
-                MemoDtos.Add(new MemoDto()
+                PageIndex = 0,
+                PageSize = 100,
+            });
+            if (todoResult.Status)
+            {
+                MemoDtos.Clear();
+                foreach (var item in todoResult.Result.Items)
                 {
-                    Title = "标题" + i,
-                    Content = "测试数据..."
-
-                });
+                    MemoDtos.Add(item);
+                }
             }
         }
     }

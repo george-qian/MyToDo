@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Models\MemoDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\user.jfif" />
   </ItemGroup>
 
