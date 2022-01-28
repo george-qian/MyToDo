@@ -1,4 +1,5 @@
-﻿using MyToDo.Extensions;
+﻿using MyToDo.Common;
+using MyToDo.Extensions;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,12 @@ namespace MyToDo.Views
     /// </summary>
     public partial class MainView : Window
     {
-        public MainView(IEventAggregator aggregator)
+        private readonly IDialogHostService dialogHostService;
+
+        public MainView(IEventAggregator aggregator, IDialogHostService dialogHostService)
         {
             InitializeComponent();
-
+            this.dialogHostService = dialogHostService;
             aggregator.Register(ArgIterator => 
             {
                 DialogHost.IsOpen = ArgIterator.IsOpen;
@@ -43,7 +46,11 @@ namespace MyToDo.Views
                 else
                     this.WindowState = WindowState.Maximized;
             };
-            btnClose.Click += (o, e) => { this.Close(); };
+            btnClose.Click += async (o, e) => {
+                var dialogResult = await dialogHostService.Qusetion("温馨提示", "确认退出系统？");
+                if (dialogResult.Result != Prism.Services.Dialogs.ButtonResult.OK) return;
+                this.Close(); 
+            };
             ColorZone.MouseDoubleClick += (o, e) =>
             {
                 if (this.WindowState == WindowState.Maximized)
@@ -56,6 +63,7 @@ namespace MyToDo.Views
                 if (e.LeftButton == MouseButtonState.Pressed)
                     this.DragMove();
             };
+
         }
     }
 }
