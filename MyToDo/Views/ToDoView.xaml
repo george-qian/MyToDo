@@ -24,8 +24,8 @@
                             <ComboBoxItem>已完成</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                    <TextBox Text="{Binding CurrentDto.Title}" Margin="20,0" md:HintAssist.Hint="请输入待办概要" DockPanel.Dock="Top"/>
-                    <TextBox Text="{Binding CurrentDto.Content}" Margin="20" MinHeight="100" md:HintAssist.Hint="请输入待办内容" DockPanel.Dock="Top"/>
+                    <TextBox Text="{Binding CurrentDto.Title}" Margin="20,0" md:HintAssist.Hint="请输入待办概要" DockPanel.Dock="Top" Cursor="IBeam"/>
+                    <TextBox Text="{Binding CurrentDto.Content}" Margin="20" MinHeight="100" md:HintAssist.Hint="请输入待办内容" DockPanel.Dock="Top" Cursor="IBeam"/>
                     <Button Command="{Binding ExecuteCommand}" CommandParameter="保存" Margin="20,0" Content="添加到待办" DockPanel.Dock="Top" Cursor="Hand"/>
                 </DockPanel>
             </md:DrawerHost.RightDrawerContent>

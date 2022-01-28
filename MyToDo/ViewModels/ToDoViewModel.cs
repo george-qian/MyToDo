@@ -27,15 +27,21 @@ namespace MyToDo.ViewModels
 
         private async void Delete(ToDoDto obj)
         {
-           var deleteResult = await service.DeleteAsync(obj.Id);
-            if (deleteResult.Status)
+            try
             {
-                var model = ToDoDtos.FirstOrDefault(x=>x.Id.Equals(obj.Id));
-                if(model != null)
+                UpdateLoading(true);
+                var deleteResult = await service.DeleteAsync(obj.Id);
+                if (deleteResult.Status)
                 {
-                    ToDoDtos.Remove(model);
+                    var model = ToDoDtos.FirstOrDefault(x => x.Id.Equals(obj.Id));
+                    if (model != null)
+                    {
+                        ToDoDtos.Remove(model);
+                    }
                 }
             }
+            finally { UpdateLoading(false); }
+
         }
 
         private void Execute(string obj)
