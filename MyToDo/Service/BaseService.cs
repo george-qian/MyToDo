@@ -11,8 +11,8 @@ namespace MyToDo.Service
 {
     public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
     {
-        private readonly HttpRestClient client;
-        private readonly string serviceName;
+        protected readonly HttpRestClient client;
+        protected readonly string serviceName;
 
         public BaseService(HttpRestClient client, string serviceName)
         {
@@ -32,7 +32,7 @@ namespace MyToDo.Service
         {
             BaseRequest request = new BaseRequest();
             request.Method = RestSharp.Method.Delete;
-            request.Route = $"api/{serviceName}/Delete";
+            request.Route = $"api/{serviceName}/Delete?id={id}";
             return await client.ExecuteAsync(request);
         }
 
@@ -50,7 +50,7 @@ namespace MyToDo.Service
         {
             BaseRequest request = new BaseRequest();
             request.Method = RestSharp.Method.Get;
-            request.Route = $"api/{serviceName}/Get";
+            request.Route = $"api/{serviceName}/Get?id={id}";
             return await client.ExecuteAsync<TEntity>(request);
         }
 

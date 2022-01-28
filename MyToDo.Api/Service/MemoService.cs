@@ -27,7 +27,7 @@ namespace MyToDo.Api.Service
                 var memoEntity = mapper.Map<Memo>(model);
                 await work.GetRepository<Memo>().InsertAsync(memoEntity);
                 if (await work.SaveChangesAsync() > 0)
-                    return new ApiResponse(true, model);
+                    return new ApiResponse(true, memoEntity);
                 return new ApiResponse("添加数据失败");
             }
             catch (Exception ex)
@@ -95,6 +95,7 @@ namespace MyToDo.Api.Service
                 memoEntity.Title = model.Title;
                 memoEntity.Content = model.Content;
                 memoEntity.UpdateDate = DateTime.Now;
+                repository.Update(memoEntity);
                 if(await work.SaveChangesAsync() > 0)
                     return new ApiResponse(true, memoEntity);
                 return new ApiResponse("添加数据异常！");

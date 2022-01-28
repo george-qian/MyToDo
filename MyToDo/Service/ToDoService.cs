@@ -15,5 +15,17 @@ namespace MyToDo.Service
         public ToDoService(HttpRestClient client) : base(client, "ToDo")
         {
         }
+
+        public async Task<ApiResponse<PagedList<ToDoDto>>> GetAllFilterAsync(ToDoParameter parameter)
+        {
+            BaseRequest request = new BaseRequest();
+            request.Method = RestSharp.Method.Get;
+            request.Route = $"api/{serviceName}/GetAll?pageIndex={parameter.PageIndex}" +
+                $"&pageSize={parameter.PageSize}" +
+                $"&search={parameter.Search}"+
+                $"&status={parameter.Status}";
+            return await client.ExecuteAsync<PagedList<ToDoDto>>(request);
+
+        }
     }
 }
