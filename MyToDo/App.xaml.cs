@@ -1,7 +1,10 @@
 ﻿using DryIoc;
+using MyToDo.Common;
 using MyToDo.Service;
 using MyToDo.ViewModels;
+using MyToDo.ViewModels.Dialogs;
 using MyToDo.Views;
+using MyToDo.Views.Dialogs;
 using Prism.DryIoc;
 using Prism.Ioc;
 using System;
@@ -24,6 +27,13 @@ namespace MyToDo
             return Container.Resolve<MainView>();
         }
 
+        protected override void OnInitialized()
+        {
+            var service = App.Current.MainWindow.DataContext as IConfigureService;
+            if(service != null)
+                service.Configure();
+            base.OnInitialized();
+        }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.GetContainer()
@@ -32,6 +42,9 @@ namespace MyToDo
                 .RegisterInstance(@"http://localhost:5155/", serviceKey: "webUrl");
             containerRegistry.Register<IToDoService,ToDoService>();
             containerRegistry.Register<IMemoService, MemoService>();
+
+            containerRegistry.RegisterDialog<AddToDoView,AddToDoViewModel>();
+            containerRegistry.RegisterDialog<AddMemoView,AddMemoViewModel>();
 
             containerRegistry.RegisterForNavigation<AboutView>();
             containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();
