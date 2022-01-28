@@ -42,9 +42,10 @@ namespace MyToDo
                 .RegisterInstance(@"http://localhost:5155/", serviceKey: "webUrl");
             containerRegistry.Register<IToDoService,ToDoService>();
             containerRegistry.Register<IMemoService, MemoService>();
+            containerRegistry.Register<IDialogHostService, DialogHostService>();
 
-            containerRegistry.RegisterDialog<AddToDoView,AddToDoViewModel>();
-            containerRegistry.RegisterDialog<AddMemoView,AddMemoViewModel>();
+            containerRegistry.RegisterForNavigation<AddToDoView,AddToDoViewModel>();
+            containerRegistry.RegisterForNavigation<AddMemoView,AddMemoViewModel>();
 
             containerRegistry.RegisterForNavigation<AboutView>();
             containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();

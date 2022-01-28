@@ -22,7 +22,7 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
     <materialDesign:DialogHost
-        Identifier="RootDialog" x:Name="DialogHost"
+        Identifier="Root" x:Name="DialogHost"
         DialogTheme="Inherit"
         SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
 
