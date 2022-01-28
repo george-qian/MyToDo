@@ -1,7 +1,9 @@
 ﻿using MyToDo.Common;
 using MyToDo.Common.Models;
+using MyToDo.Service;
 using MyToDo.Shared.Dtos;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -13,10 +15,16 @@ using System.Threading.Tasks;
 
 namespace MyToDo.ViewModels
 {
-    public class IndexViewModel:BindableBase
+    public class IndexViewModel:NavigationViewModel
     {
-        public IndexViewModel(IDialogHostService dialog)
+        private readonly IToDoService toDoService;
+        private readonly IMemoService memoService;
+        public IndexViewModel(
+            IContainerProvider provider,
+            IDialogHostService dialog):base(provider)
         {
+            this.toDoService = provider.Resolve<IToDoService>();
+            this.memoService = provider.Resolve<IMemoService>();
             TaskBars = new ObservableCollection<TaskBar>();
             ToDoDtos = new ObservableCollection<ToDoDto>();
             MemoDtos = new ObservableCollection<MemoDto>();
@@ -33,13 +41,47 @@ namespace MyToDo.ViewModels
                 case "新增备忘录": AddMemo(); break;
             }
         }
-        void AddToDo()
+        /// <summary>
+        /// 添加待办事项
+        /// </summary>
+        async void AddToDo()
         {
-            dialog.ShowDialog("AddToDoView",null);   
+            var dialogResult = await dialog.ShowDialog("AddToDoView", null);
+            if (dialogResult.Result == ButtonResult.OK)
+            {
+                var todo = dialogResult.Parameters.GetValue<ToDoDto>("Value");
+                if (todo.Id > 0)
+                {
+
+                }
+                else
+                {
+                    var addResult = await toDoService.AddAsync(todo);
+                    if (addResult.Status)
+                        ToDoDtos.Add(addResult.Result);
+                }
+            }
         }
-        void AddMemo()
+        /// <summary>
+        /// 添加备忘录
+        /// </summary>
+        async void AddMemo()
         {
-            dialog.ShowDialog("AddMemoView",null);
+            var dialogResult = await dialog.ShowDialog("AddMemoView", null);
+            if (dialogResult.Result == ButtonResult.OK)
+            {
+                var memo = dialogResult.Parameters.GetValue<MemoDto>("Value");
+                if (memo.Id > 0)
+                {
+
+                }
+                else
+                {
+                    var addResult = await memoService.AddAsync(memo);
+                    if (addResult.Status)
+                        MemoDtos.Add(addResult.Result);
+                }
+            }
         }
         public DelegateCommand<string> ExecuteCommand { get; private set; }
         #region 属性

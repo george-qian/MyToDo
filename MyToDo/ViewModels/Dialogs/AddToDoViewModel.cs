@@ -1,6 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MyToDo.Common;
+using MyToDo.Shared.Dtos;
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -10,12 +12,19 @@ using System.Threading.Tasks;
 
 namespace MyToDo.ViewModels.Dialogs
 {
-    public class AddToDoViewModel : IDialogHostAware
+    public class AddToDoViewModel : BindableBase, IDialogHostAware
     {
         public AddToDoViewModel()
         {
             SaveCommand = new DelegateCommand(Save);
             CancelCommand = new DelegateCommand(Cancel);
+        }
+        private ToDoDto model;
+
+        public ToDoDto Model
+        {
+            get { return model; }
+            set { model = value; RaisePropertyChanged(); }
         }
 
         private void Cancel()
@@ -32,6 +41,7 @@ namespace MyToDo.ViewModels.Dialogs
             if (DialogHost.IsDialogOpen(DialogHostName))
             {
                 DialogParameters param = new DialogParameters();
+                param.Add("Value",model);
                 DialogHost.Close(DialogHostName, new DialogResult(ButtonResult.OK, param));
             }
         }
@@ -42,7 +52,14 @@ namespace MyToDo.ViewModels.Dialogs
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            return;
+            if(parameters.ContainsKey("Value"))
+            {
+                Model = parameters.GetValue<ToDoDto>("Value");
+            }
+            else
+            {
+                Model = new ToDoDto();
+            }
         }
     }
 }

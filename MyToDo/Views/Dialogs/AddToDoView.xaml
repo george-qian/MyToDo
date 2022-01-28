@@ -17,14 +17,14 @@
             Text="添加待办" FontWeight="Bold" FontSize="20"/>
         <DockPanel Grid.Row="1" LastChildFill="False">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <TextBlock Margin="20,0" Text="状态："/>
-                <ComboBox>
+                <TextBlock Margin="20,0" Text="状态：" VerticalAlignment="Center"/>
+                <ComboBox SelectedIndex="{Binding Model.Status}" Margin="10,0,0,0" >
                     <ComboBoxItem>待办</ComboBoxItem>
                     <ComboBoxItem>已完成</ComboBoxItem>
                 </ComboBox>
             </StackPanel>
-            <TextBox Margin="20,0" DockPanel.Dock="Top" md:HintAssist.Hint="请输入待办内容"/>
-            <TextBox Margin="20,0" 
+            <TextBox Text="{Binding Model.Title}" Margin="20,10" DockPanel.Dock="Top" md:HintAssist.Hint="请输入待办内容"/>
+            <TextBox Text="{Binding Model.Content}" Margin="20,10" 
                      MinHeight="100"
                      AcceptsReturn="True"
                      TextWrapping="Wrap"

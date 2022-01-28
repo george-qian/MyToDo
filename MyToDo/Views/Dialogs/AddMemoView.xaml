@@ -16,8 +16,8 @@
             Padding="20,10"
             Text="添加备忘录" FontWeight="Bold" FontSize="20"/>
         <DockPanel Grid.Row="1" LastChildFill="False">
-            <TextBox Margin="20,0" DockPanel.Dock="Top" md:HintAssist.Hint="请输入备忘录概要"/>
-            <TextBox Margin="20,0" 
+            <TextBox Text="{Binding Model.Title}" Margin="20,10" DockPanel.Dock="Top" md:HintAssist.Hint="请输入备忘录概要" Cursor="IBeam"/>
+            <TextBox Text="{Binding Model.Content}" Margin="20,10" 
                      MinHeight="100"
                      AcceptsReturn="True"
                      TextWrapping="Wrap"
