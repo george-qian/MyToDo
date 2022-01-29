@@ -34,6 +34,7 @@ namespace MyToDo.Api.Controllers
         public async Task<ApiResponse> Update([FromBody] ToDoDto model) => await service.UpdateAsync(model);
         [HttpDelete]
         public async Task<ApiResponse> Delete(int id) => await service.DeleteAsync(id);
-
+        [HttpGet]
+        public async Task<ApiResponse> Summary() => await service.Summary();
     }
 }

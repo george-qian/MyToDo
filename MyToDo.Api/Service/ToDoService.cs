@@ -123,5 +123,26 @@ namespace MyToDo.Api.Service
                 return new ApiResponse(ex.Message);
             }
         }
+
+        public async Task<ApiResponse> Summary()
+        {
+            try
+            {
+                var todos = await work.GetRepository<ToDo>().GetAllAsync(orderBy: x => x.OrderByDescending(t => t.CreateDate));
+                var memos = await work.GetRepository<Memo>().GetAllAsync(orderBy: x => x.OrderByDescending(t => t.CreateDate));
+                SummaryDto summary = new SummaryDto();
+                summary.Sum = todos.Count();
+                summary.CompletedCount=todos.Where(t=>t.Status==1).Count();
+                summary.CompletedRatio= (summary.CompletedCount/(double)summary.Sum).ToString("0%");
+                summary.MemoCount=memos.Count();
+                summary.ToDoList = new System.Collections.ObjectModel.ObservableCollection<ToDoDto>(mapper.Map<List<ToDoDto>>(todos.Where(t => t.Status == 0)));
+                summary.MemoList = new System.Collections.ObjectModel.ObservableCollection<MemoDto>(mapper.Map<List<MemoDto>>(memos));
+                return new ApiResponse(true, summary);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(ex.Message);
+            }
+        }
     }
 }
