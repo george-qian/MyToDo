@@ -5,7 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Blackvariant-Button-Ui-Requests-5-ToDo-List.ico</ApplicationIcon>
+    <ApplicationIcon>todo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Blackvariant-Button-Ui-Requests-5-ToDo-List.ico" />
+    <Content Include="todo.ico" />
   </ItemGroup>
 
   <ItemGroup>

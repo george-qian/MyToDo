@@ -16,15 +16,15 @@ namespace MyToDo.Api.Service
             this.work = work;
             this.mapper = mapper;
         }
-        public async Task<ApiResponse> LoginAsync(string Account, string Password)
+        public async Task<ApiResponse> LoginAsync(UserDto user)
         {
             try
             {
                 var model = await work.GetRepository<User>().GetFirstOrDefaultAsync(predicate:
-                    x => (x.Account.Equals(Account) && x.Password.Equals(Password)));
+                    x => (x.Account.Equals(user.Account) && x.Password.Equals(user.Password)));
                 if (model == null)
                     return new ApiResponse("账号密码错误，请重试！");
-                return new ApiResponse(true, model);
+                return new ApiResponse(true,"登录成功！");
              
             }catch(Exception ex)
             {
@@ -44,7 +44,7 @@ namespace MyToDo.Api.Service
                 model.CreateDate = DateTime.Now;
                 await repository.InsertAsync(model);
                 if (await work.SaveChangesAsync() > 0)
-                    return new ApiResponse(true, model);
+                    return new ApiResponse(true, "注册成功！");
                 return new ApiResponse("注册失败，请重试！");
             }
             catch(Exception ex)

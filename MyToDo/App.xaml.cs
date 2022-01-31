@@ -33,7 +33,7 @@ namespace MyToDo
             var dialog = Container.Resolve<IDialogService>();
             dialog.ShowDialog("LoginView", callback =>
             {
-                if (callback.Result == ButtonResult.OK)
+                if (callback.Result == ButtonResult.No)
                 {
                     Application.Current.Shutdown();
                 }
@@ -51,6 +51,8 @@ namespace MyToDo
                 .RegisterInstance(@"http://localhost:5155/", serviceKey: "webUrl");
             containerRegistry.Register<IToDoService,ToDoService>();
             containerRegistry.Register<IMemoService, MemoService>();
+            containerRegistry.Register<ILoginService, LoginService>();
+
             containerRegistry.Register<IDialogHostService, DialogHostService>();
 
             containerRegistry.RegisterDialog<LoginView, LoginViewModel>();

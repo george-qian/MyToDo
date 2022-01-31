@@ -22,8 +22,8 @@ namespace MyToDo.Api.Controllers
             this.service = service;
         }
 
-        [HttpGet]
-        public async Task<ApiResponse> Login(string account, string password) => await service.LoginAsync(account, password);
+        [HttpPost]
+        public async Task<ApiResponse> Login([FromBody] UserDto model) => await service.LoginAsync(model);
 
         [HttpPost]
         public async Task<ApiResponse> Register([FromBody] UserDto model) => await service.Register(model);

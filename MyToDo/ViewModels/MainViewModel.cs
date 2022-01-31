@@ -17,7 +17,7 @@ namespace MyToDo.ViewModels
     {
         public MainViewModel(IRegionManager regionManager)
         {
-            menuBars = new ObservableCollection<MenuBar>();
+            MenuBars = new ObservableCollection<MenuBar>();
             NavigateCommand = new DelegateCommand<MenuBar>(Navigate);
             GoBackCommand = new DelegateCommand(() =>
             {
