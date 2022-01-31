@@ -23,8 +23,7 @@
         WindowStartupLocation="CenterScreen">
     <materialDesign:DialogHost
         Identifier="Root" x:Name="DialogHost"
-        DialogTheme="Inherit"
-        SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        DialogTheme="Inherit">
 
         <materialDesign:DrawerHost x:Name="drawerHost"
             IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
@@ -55,8 +54,12 @@
                     </ListBox>
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
-
-            <DockPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <materialDesign:Snackbar x:Name="Snackbar" Panel.ZIndex="1" MessageQueue="{materialDesign:MessageQueue}"/>
                 <materialDesign:ColorZone
                     x:Name="ColorZone"
                     Padding="16"
@@ -110,8 +113,8 @@
 
                     </DockPanel>
                 </materialDesign:ColorZone>
-                <ContentControl prism:RegionManager.RegionName="{x:Static ext:PrismManager.MainViewRegionName}"/>
-            </DockPanel>
+                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static ext:PrismManager.MainViewRegionName}"/>
+            </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 </Window>

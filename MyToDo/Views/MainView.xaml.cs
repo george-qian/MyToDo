@@ -27,6 +27,10 @@ namespace MyToDo.Views
         public MainView(IEventAggregator aggregator, IDialogHostService dialogHostService)
         {
             InitializeComponent();
+            aggregator.SubscribeMessage(arg =>
+            {
+                Snackbar?.MessageQueue?.Enqueue(arg);
+            });
             this.dialogHostService = dialogHostService;
             aggregator.Register(ArgIterator => 
             {

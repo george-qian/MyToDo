@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Blackvariant-Button-Ui-Requests-5-ToDo-List.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +13,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\login.jpg" />
     <None Remove="Images\user.jfif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Blackvariant-Button-Ui-Requests-5-ToDo-List.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\login.jpg" />
   </ItemGroup>
 
   <ItemGroup>
