@@ -52,3 +52,7 @@ Done.
 - 在MyToDo.Shared工程添加Dto类
 - 在MyToDo.Api工程添加AutoMapperProfile，在program类中依赖注入automapper
 - 使用automapper实现dto与entity类的转换
+
+### 部署
+- 数据库文件to.db属性`复制到输出目录`,如果较新则复制
+- 右键，`发布...`。选择发布位置，配置并发布
