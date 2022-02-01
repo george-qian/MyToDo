@@ -26,7 +26,7 @@ namespace MyToDo.ViewModels
             IContainerProvider provider,
             IDialogHostService dialog):base(provider)
         {
-            Title = $"你好，Root！ {DateTime.Now.GetDateTimeFormats('D')[1]}";
+            Title = $"你好，{AppSession.UserName}！ {DateTime.Now.GetDateTimeFormats('D')[1]}";
             this.toDoService = provider.Resolve<IToDoService>();
             this.memoService = provider.Resolve<IMemoService>();
             this.regionManager = provider.Resolve<IRegionManager>();

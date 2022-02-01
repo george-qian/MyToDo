@@ -1,7 +1,10 @@
-﻿using MyToDo.Service;
+﻿using MyToDo.Common;
+using MyToDo.Extensions;
+using MyToDo.Service;
 using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Extensions;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -16,10 +19,13 @@ namespace MyToDo.ViewModels
     {
         
         private readonly ILoginService service;
-        public LoginViewModel(ILoginService service)
+        private readonly IEventAggregator aggregator;
+
+        public LoginViewModel(ILoginService service, IEventAggregator aggregator)
         {
             
             this.service = service;
+            this.aggregator = aggregator;
             CurrentUserDto = new RegisterUserDto();
             ExecuteCommand = new DelegateCommand<string>(Execute);
         }
@@ -54,7 +60,10 @@ namespace MyToDo.ViewModels
             if (registerResult.Status)
             {
                 SelectedIndex = 0;
+                aggregator.SendMessage("注册成功！", "Login");
+                return;
             }
+            aggregator.SendMessage(registerResult.Message,"Login");
         }
 
         async void Login()
@@ -69,8 +78,11 @@ namespace MyToDo.ViewModels
             });
             if (loginResult.Status)
             {
+                AppSession.UserName = loginResult.Result.UserName;
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+                return;
             }
+            aggregator.SendMessage(loginResult.Message, "Login");
         }
 
         void LoginOut()

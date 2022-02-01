@@ -24,7 +24,7 @@ namespace MyToDo.Api.Service
                     x => (x.Account.Equals(user.Account) && x.Password.Equals(user.Password)));
                 if (model == null)
                     return new ApiResponse("账号密码错误，请重试！");
-                return new ApiResponse(true,"登录成功！");
+                return new ApiResponse(true,model);
              
             }catch(Exception ex)
             {
@@ -44,7 +44,7 @@ namespace MyToDo.Api.Service
                 model.CreateDate = DateTime.Now;
                 await repository.InsertAsync(model);
                 if (await work.SaveChangesAsync() > 0)
-                    return new ApiResponse(true, "注册成功！");
+                    return new ApiResponse(true, model);
                 return new ApiResponse("注册失败，请重试！");
             }
             catch(Exception ex)

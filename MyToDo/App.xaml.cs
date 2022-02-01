@@ -27,7 +27,19 @@ namespace MyToDo
         {
             return Container.Resolve<MainView>();
         }
-
+        public static void LoginOut(IContainerProvider containerProvider)
+        {
+            Current.MainWindow.Hide();
+            var dialog = containerProvider.Resolve<IDialogService>();
+            dialog.ShowDialog("LoginView", callback =>
+            {
+                if (callback.Result == ButtonResult.No)
+                {
+                    Environment.Exit(0);
+                }
+                Current.MainWindow.Show();
+            });
+        }
         protected override void OnInitialized()
         {
             var dialog = Container.Resolve<IDialogService>();
@@ -35,7 +47,7 @@ namespace MyToDo
             {
                 if (callback.Result == ButtonResult.No)
                 {
-                    Application.Current.Shutdown();
+                    Environment.Exit(0);
                 }
             });
             var service = App.Current.MainWindow.DataContext as IConfigureService;

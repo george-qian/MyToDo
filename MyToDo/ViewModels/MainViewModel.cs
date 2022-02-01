@@ -2,6 +2,7 @@
 using MyToDo.Common.Models;
 using MyToDo.Extensions;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -15,8 +16,17 @@ namespace MyToDo.ViewModels
 {
     public class MainViewModel:BindableBase, IConfigureService
     {
-        public MainViewModel(IRegionManager regionManager)
+        private string userName;
+
+        public string UserName
         {
+            get { return userName; }
+            set { userName = value; RaisePropertyChanged(); }
+        }
+
+        public MainViewModel(IContainerProvider containerProvider,IRegionManager regionManager)
+        {
+            this.containerProvider = containerProvider;
             MenuBars = new ObservableCollection<MenuBar>();
             NavigateCommand = new DelegateCommand<MenuBar>(Navigate);
             GoBackCommand = new DelegateCommand(() =>
@@ -28,6 +38,10 @@ namespace MyToDo.ViewModels
             {
                 if (journal != null && (journal.CanGoForward))
                     journal.GoForward();
+            });
+            LoginOutCommand = new DelegateCommand(() =>
+            {
+                App.LoginOut(containerProvider);
             });
             this.regionManager = regionManager;
         }
@@ -42,12 +56,13 @@ namespace MyToDo.ViewModels
             });
 
         }
-
+        public DelegateCommand LoginOutCommand { get;private set; }
         public DelegateCommand<MenuBar> NavigateCommand { get; set; }
         public DelegateCommand GoBackCommand { get;private set; }
         public DelegateCommand GoForwardCommand { get; private set; }
 
         private ObservableCollection<MenuBar> menuBars;
+        private readonly IContainerProvider containerProvider;
         private readonly IRegionManager regionManager;
         private IRegionNavigationJournal journal; 
         public ObservableCollection<MenuBar> MenuBars
@@ -67,6 +82,7 @@ namespace MyToDo.ViewModels
         public void Configure()
         {
             CreateMenuBar();
+            UserName = AppSession.UserName;
             regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("IndexView");
         }
     }

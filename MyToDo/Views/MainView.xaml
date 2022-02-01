@@ -35,7 +35,7 @@
                                 <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25"/>
                             </Image.Clip>
                         </Image>
-                        <TextBlock Text="root" Margin="0,10" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding UserName}" Margin="0,10" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <ListBox x:Name="menuBar" Style="{StaticResource MaterialDesignNavigationPrimaryListBox}" ItemsSource="{Binding MenuBars}">
                         <i:Interaction.Triggers>
@@ -67,8 +67,8 @@
                     Mode="PrimaryMid"
                     DockPanel.Dock="Top">
                     <DockPanel LastChildFill="False">
+                        
                         <StackPanel Orientation="Horizontal">
-
                             <ToggleButton
                                 x:Name="MenuToggleButton"
                                 Style="{StaticResource MaterialDesignHamburgerToggleButton}"
@@ -101,11 +101,25 @@
                             Text="笔记本"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                            <Image Source="/Images/user.jfif" Width="25" Height="25">
-                                <Image.Clip>
-                                    <EllipseGeometry Center="12.5,12.5" RadiusX="12.5" RadiusY="12.5"/>
-                                </Image.Clip>
-                            </Image>
+                            <materialDesign:PopupBox>
+                                <materialDesign:PopupBox.ToggleContent>
+                                    <Image Source="/Images/user.jfif"
+                                           Width="25"
+                                           Height="25">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="12.5,12.5"
+                                                             RadiusX="12.5"
+                                                             RadiusY="12.5" />
+                                        </Image.Clip>
+                                    </Image>
+                                </materialDesign:PopupBox.ToggleContent>
+                                <StackPanel>
+                                    <Button Command="{Binding AppCenterCommand}"
+                                            Content="个人中心" />
+                                    <Button Command="{Binding LoginOutCommand}"
+                                            Content="注销当前账户" />
+                                </StackPanel>
+                            </materialDesign:PopupBox>
                             <Button x:Name="btnMin"  Content="—" Style="{StaticResource MaterialDesignFlatMidBgButton}"/>
                             <Button x:Name="btnMax" Content="☐" Style="{StaticResource MaterialDesignFlatMidBgButton}"/>
                             <Button x:Name="btnClose" Content="✕" Style="{StaticResource MaterialDesignFlatMidBgButton}" Cursor="Hand"/>
