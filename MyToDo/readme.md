@@ -51,3 +51,8 @@ xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 - 在解决方案中添加新项目。基于.NET6，创建ASP.NET Core Web Api，去掉Https选项，命名为MyToDo.Api。
 ### 使用RestSharp实现REST和HTTP API客户端
 - - 在NuGet包管理中，安装RestSharp。
+
+### 发布配置
+- 选择发布目录
+- 配置文件
+- 用Advanced Installer制作安装包
