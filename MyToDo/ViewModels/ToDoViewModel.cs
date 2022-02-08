@@ -1,4 +1,5 @@
-﻿using MyToDo.Common;
+﻿using Arch.EntityFrameworkCore.UnitOfWork.Collections;
+using MyToDo.Common;
 using MyToDo.Extensions;
 using MyToDo.Service;
 using MyToDo.Shared.Dtos;
@@ -148,7 +149,7 @@ namespace MyToDo.ViewModels
             try
             {
                 UpdateLoading(true);
-                var todoResult = await service.GetFirstOrDefaultAsync(obj.Id);
+                var todoResult = await service.GetSingleAsync(obj.Id);
 
                 if (todoResult.Status)
                 {
@@ -182,7 +183,7 @@ namespace MyToDo.ViewModels
 
             int? Status = SelectedIndex == 0 ? null : SelectedIndex == 2 ? 1 : 0;
 
-            var todoResult = await service.GetAllFilterAsync(new Shared.Parameters.ToDoParameter()
+            var todoResult = await service.GetAllAsync(new Shared.Parameters.ToDoParameter()
             {
                 PageIndex = 0,
                 PageSize = 100,
@@ -192,7 +193,7 @@ namespace MyToDo.ViewModels
             if (todoResult.Status)
             {
                 ToDoDtos.Clear();
-                foreach(var item in todoResult.Result.Items)
+                foreach(var item in ((IPagedList<ToDoDto>)todoResult.Result).Items)
                 {
                     ToDoDtos.Add(item);
                 }

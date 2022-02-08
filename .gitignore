@@ -1,9 +1,13 @@
 MyToDo/bin/
 MyToDo/obj/
+MyToDo/Migrations/
+MyToDo/to.*
+
 MyToDo.Api/bin/
 MyToDo.Api/obj/
 MyToDo.Api/Migrations/
 MyToDo.Api/to.*
+
 MyToDo.Shared/bin/
 MyToDo.Shared/obj/
 .vs/

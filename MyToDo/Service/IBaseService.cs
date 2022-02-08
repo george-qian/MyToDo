@@ -1,20 +1,16 @@
 ﻿using Arch.EntityFrameworkCore.UnitOfWork.Collections;
 using MyToDo.Shared;
 using MyToDo.Shared.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyToDo.Service
 {
-    public interface IBaseService<TEntity> where TEntity : class
+    public interface IBaseService<T>
     {
-        Task<ApiResponse<TEntity>> AddAsync(TEntity entity);
-        Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity);
+        Task<ApiResponse> GetAllAsync(QueryParameter parameter);
+        Task<ApiResponse<T>> GetSingleAsync(int id);
+        Task<ApiResponse<T>> AddAsync(T model);
+        Task<ApiResponse<T>> UpdateAsync(T model);
         Task<ApiResponse> DeleteAsync(int id);
-        Task<ApiResponse<TEntity>> GetFirstOrDefaultAsync(int id);
-        Task<ApiResponse<PagedList<TEntity>>> GetAllAsync(QueryParameter parameter);
     }
 }

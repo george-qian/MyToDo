@@ -1,4 +1,5 @@
 ﻿
+using Arch.EntityFrameworkCore.UnitOfWork.Collections;
 using MyToDo.Common;
 using MyToDo.Extensions;
 using MyToDo.Service;
@@ -144,7 +145,7 @@ namespace MyToDo.ViewModels
             try
             {
                 UpdateLoading(true);
-                var memoResult = await service.GetFirstOrDefaultAsync(obj.Id);
+                var memoResult = await service.GetSingleAsync(obj.Id);
 
                 if (memoResult.Status)
                 {
@@ -186,7 +187,8 @@ namespace MyToDo.ViewModels
             if (memoResult.Status)
             {
                 MemoDtos.Clear();
-                foreach (var item in memoResult.Result.Items)
+                IPagedList<MemoDto> result = (IPagedList<MemoDto>)memoResult.Result;
+                foreach (var item in result.Items )
                 {
                     MemoDtos.Add(item);
                 }

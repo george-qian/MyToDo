@@ -1,5 +1,12 @@
-﻿using DryIoc;
+﻿using Arch.EntityFrameworkCore.UnitOfWork;
+using AutoMapper;
+using DryIoc;
+using DryIoc.Microsoft.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MyToDo.Common;
+using MyToDo.Context;
+using MyToDo.Context.Repository;
 using MyToDo.Service;
 using MyToDo.ViewModels;
 using MyToDo.ViewModels.Dialogs;
@@ -55,16 +62,42 @@ namespace MyToDo
                 service.Configure();
             base.OnInitialized();
         }
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            var serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddDbContext<MyToDoContext>(options =>
+            {
+                options.UseSqlite("Data Source=to.db");
+            })
+                .AddUnitOfWork<MyToDoContext>()
+                .AddCustomRepository<ToDo, ToDoRepository>()
+                .AddCustomRepository<Memo, MemoRepository>()
+                .AddCustomRepository<User, UserRepository>();
+
+            serviceCollection.AddTransient<IToDoService, ToDoService>();
+            serviceCollection.AddTransient<IMemoService, MemoService>();
+            serviceCollection.AddTransient<ILoginService, LoginService>();
+
+            serviceCollection.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile(new AutoMapperProfile());
+            });
+
+            return new DryIocContainerExtension(new Container(CreateContainerRules())
+                .WithDependencyInjectionAdapter(serviceCollection));
+
+        }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.GetContainer()
-                .Register<HttpRestClient>(made: Parameters.Of.Type<string>(serviceKey: "webUrl"));
-            containerRegistry.GetContainer()
-                .RegisterInstance(@"http://localhost:5000/", serviceKey: "webUrl");
-                //.RegisterInstance(@"http://localhost:5155/", serviceKey: "webUrl");
-            containerRegistry.Register<IToDoService,ToDoService>();
-            containerRegistry.Register<IMemoService, MemoService>();
-            containerRegistry.Register<ILoginService, LoginService>();
+            //containerRegistry.GetContainer()
+            //    .Register<HttpRestClient>(made: Parameters.Of.Type<string>(serviceKey: "webUrl"));
+            //containerRegistry.GetContainer()
+            //    .RegisterInstance(@"http://localhost:5000/", serviceKey: "webUrl");
+            //    //.RegisterInstance(@"http://localhost:5155/", serviceKey: "webUrl");
+            //containerRegistry.Register<IToDoService,ToDoService>();
+            //containerRegistry.Register<IMemoService, MemoService>();
+            //containerRegistry.Register<ILoginService, LoginService>();
 
             containerRegistry.Register<IDialogHostService, DialogHostService>();
 
